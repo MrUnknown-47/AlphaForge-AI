@@ -27,3 +27,7 @@ class UnauthorizedException(AuthException):
 class ForbiddenException(AuthException):
     status_code: int = 403
     detail: str = "Insufficient permissions to perform this operation"
+
+class PasswordValidationException(AuthException):
+    status_code: int = 400
+    detail: str = "Password must be between 8 and 128 characters"

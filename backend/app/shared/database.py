@@ -31,13 +31,20 @@ class DatabaseSessionManager:
         self._sessionmaker = None
 
     def init(self, host: str) -> None:
-        # Check for SQLite fallback to support offline testing
-        if "sqlite" in host:
-            self._engine = create_async_engine(host)
+        # Clean database URL query parameters for asyncpg compatibility
+        import re
+        cleaned_host = host
+        if "sslmode=" in cleaned_host:
+            cleaned_host = cleaned_host.replace("sslmode=require", "ssl=require")
+        cleaned_host = re.sub(r'[&?]channel_binding=[^&]+', '', cleaned_host)
+
+        if "sqlite" in cleaned_host:
+            self._engine = create_async_engine(cleaned_host)
         else:
             self._engine = create_async_engine(
-                host,
+                cleaned_host,
                 pool_pre_ping=True,
+                pool_recycle=3600,
                 pool_size=20,
                 max_overflow=10
             )

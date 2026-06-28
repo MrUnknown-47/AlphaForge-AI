@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AlphaForge AI Monolith"
-    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/alphaforge"
+    DATABASE_URL: str = "postgresql+asyncpg://neondb_owner:npg_B9tvpliXs8hZ@ep-patient-dew-aobozvzr-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
     REDIS_URL: str = "redis://localhost:6379/0"
     SECRET_KEY: str = "supersecretkeychangeinproduction"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30

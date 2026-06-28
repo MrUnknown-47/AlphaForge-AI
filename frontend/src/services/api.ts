@@ -5,6 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -29,7 +30,7 @@ api.interceptors.response.use(
         if (refreshToken) {
           const res = await axios.post(`${API_BASE_URL}/auth/refresh`, {
             refresh_token: refreshToken,
-          });
+          }, { withCredentials: true });
           if (res.status === 200) {
             const { access_token, refresh_token } = res.data;
             useAuthStore.getState().refresh(access_token, refresh_token);

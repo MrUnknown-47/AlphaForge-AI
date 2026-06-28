@@ -16,7 +16,7 @@ export const SearchEngine = ({ query }: { query: string }) => {
       <div className="bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4 space-y-4 text-xs font-semibold text-mutedCustom">
         {query ? (
           <div className="space-y-3">
-            <span className="block text-[10px] text-mutedCustom uppercase">Search query: "{query}"</span>
+            <span className="block text-[10px] text-mutedCustom uppercase">Search query: &quot;{query}&quot;</span>
             {mockResults.map((row, idx) => (
               <div key={idx} className="flex justify-between items-start border-b border-borderCustom pb-3 last:border-0 last:pb-0">
                 <div className="space-y-1">

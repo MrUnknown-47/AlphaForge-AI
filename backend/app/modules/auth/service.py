@@ -9,12 +9,13 @@ from app.modules.auth.exceptions import (
     UserAlreadyExistsException,
     InvalidCredentialsException,
     SessionExpiredException,
+    PasswordValidationException,
 )
 from app.shared.cache import cache_manager
 from app.modules.security.jwt_manager import JWTManager
 from app.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 jwt_manager = JWTManager(secret=settings.SECRET_KEY)
 
 class AuthService:
@@ -22,12 +23,19 @@ class AuthService:
         self.repo = repo
 
     def hash_password(self, password: str) -> str:
+        # Validate length limits
+        if len(password) < 8 or len(password) > 128:
+            raise PasswordValidationException()
         return pwd_context.hash(password)
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(plain_password, hashed_password)
 
     async def register(self, data: UserCreate) -> UserModel:
+        # Validate password length limits
+        if len(data.password) < 8 or len(data.password) > 128:
+            raise PasswordValidationException()
+            
         existing = await self.repo.get_user_by_email(data.email)
         if existing:
             raise UserAlreadyExistsException()

@@ -1,5 +1,4 @@
 # RAG Stack
-chromadb>=0.5.0
 faiss-cpu>=1.8.0
 qdrant-client>=1.9.0
 sentence-transformers>=2.7.0
