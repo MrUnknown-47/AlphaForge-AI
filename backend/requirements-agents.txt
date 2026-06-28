@@ -1,0 +1,7 @@
+# Multi-agent System & LLM Stack
+openai>=1.23.0
+anthropic>=0.25.7
+google-generativeai>=0.5.2
+ollama>=0.2.0
+langchain>=0.1.16
+llama-index>=0.10.30

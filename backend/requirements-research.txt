@@ -1,0 +1,16 @@
+# Research Library & Backtesting Stacks
+yfinance>=0.2.38
+matplotlib>=3.8.4
+plotly>=5.21.0
+polygon-api-client>=1.1.2
+alpha_vantage>=2.3.1
+finnhub-python>=2.4.14
+seaborn>=0.13.2
+ta>=0.11.0
+vectorbt>=0.25.5
+PyPortfolioOpt>=1.5.5
+numpy>=1.26.4
+pandas>=2.2.2
+scikit-learn>=1.4.2
+xgboost>=2.0.3
+optuna>=3.6.1

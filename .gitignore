@@ -1,0 +1,89 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+.cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
+*.wal
+
+# Models
+*.pkl
+*.joblib
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+*.ckpt
+models/
+checkpoints/
+artifacts/
+
+# Vector Databases
+faiss/
+faiss_index/
+chroma/
+chromadb/
+vectorstore/
+embeddings/
+
+# Trading Data
+market_data/
+tick_data/
+ohlcv/
+backtests/
+paper_trades/
+shadow_trades/
+reports/
+exports/
+
+# Logs
+logs/
+*.log
+audit_logs/
+incident_logs/
+
+# Frontend
+.next/
+out/
+dist/
+build/
+coverage/
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+*.crt
+secrets/
+credentials/
+
+# Docker
+docker-volumes/
+postgres-data/
+redis-data/

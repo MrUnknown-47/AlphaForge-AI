@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Singh
+    given-names: Vaibhav
+title: "AlphaForge AI Quant Workstation"
+version: 1.0.0
+date-released: 2026-06-28
+license: Apache-2.0
+repository-code: "https://github.com/vaibhavsingh/alphaforge-ai"

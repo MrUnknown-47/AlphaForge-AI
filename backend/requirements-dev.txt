@@ -1,0 +1,16 @@
+# Dev dependencies
+pytest>=8.1.1
+pytest-asyncio>=0.23.5
+pytest-cov>=4.1.0
+pytest-mock>=3.14.0
+hypothesis>=6.98.15
+faker>=24.0.0
+factory-boy>=3.3.0
+locust>=2.24.1
+bandit>=1.7.8
+safety>=3.1.0
+pip-audit>=2.7.2
+detect-secrets>=1.4.0
+mypy>=1.9.0
+ruff>=0.3.5
+black>=24.3.0

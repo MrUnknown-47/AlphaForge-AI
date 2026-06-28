@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  db:
+    image: timescale/timescaledb-ha:pg16
+    container_name: alphaforge-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=alphaforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - alphaforge-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: alphaforge-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - alphaforge-net
+
+  backend:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    container_name: alphaforge-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/alphaforge
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONPATH=/workspace
+    volumes:
+      - ../backend/app:/workspace/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - alphaforge-net
+
+  worker:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    container_name: alphaforge-worker
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/alphaforge
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONPATH=/workspace
+    volumes:
+      - ../backend/app:/workspace/app
+    command: celery -A app.modules.backtesting.tasks worker --loglevel=info
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - alphaforge-net
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.frontend
+    container_name: alphaforge-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - ../frontend:/workspace
+      - /workspace/node_modules
+    command: npm run dev
+    depends_on:
+      - backend
+    networks:
+      - alphaforge-net
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: alphaforge-pgadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@alphaforge.ai
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - db
+    networks:
+      - alphaforge-net
+
+volumes:
+  pgdata:
+    driver: local
+  redisdata:
+    driver: local
+
+networks:
+  alphaforge-net:
+    driver: bridge

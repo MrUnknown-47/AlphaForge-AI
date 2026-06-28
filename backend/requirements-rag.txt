@@ -1,0 +1,9 @@
+# RAG Stack
+chromadb>=0.5.0
+faiss-cpu>=1.8.0
+qdrant-client>=1.9.0
+sentence-transformers>=2.7.0
+pypdf>=4.2.0
+pdfplumber>=0.11.0
+beautifulsoup4>=4.12.3
+rank-bm25>=0.2.2

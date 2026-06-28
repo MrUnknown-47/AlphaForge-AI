@@ -1,0 +1,6 @@
+# GPU acceleration support
+torch>=2.2.2+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
+faiss-gpu>=1.8.0
+xgboost>=2.0.3
+lightgbm>=4.3.0
+cupy-cuda12x>=13.0.0
