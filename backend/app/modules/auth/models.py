@@ -31,3 +31,11 @@ class SessionModel(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 
     user: Mapped["UserModel"] = relationship(back_populates="sessions")
+
+class RevokedTokenModel(Base):
+    __tablename__ = "revoked_tokens"
+    __table_args__ = {"schema": "auth"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    token: Mapped[str] = mapped_column(String(512), unique=True, nullable=False, index=True)
+    revoked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, status, Response, Cookie
+from fastapi import APIRouter, Depends, status, Response, Cookie, HTTPException
+from app.config import settings
 from app.modules.auth.schemas import (
     UserCreate,
     UserLogin,
@@ -7,6 +8,7 @@ from app.modules.auth.schemas import (
     PasswordResetRequest,
     PasswordResetConfirm,
     EmailVerificationConfirm,
+    RefreshRequest,
 )
 from app.modules.auth.facade import AuthFacade
 from app.modules.auth.dependencies import get_auth_facade
@@ -29,8 +31,10 @@ async def login(
         key="refresh_token",
         value=tokens.refresh_token,
         httponly=True,
-        secure=True,
-        samesite="lax"
+        secure=settings.ENVIRONMENT == "production",
+        samesite="lax",
+        max_age=60*60*24*7,
+        path="/"
     )
     return tokens
 
@@ -47,10 +51,14 @@ async def logout(
 
 @router.post("/refresh", response_model=TokenResponse)
 async def refresh(
+    data: RefreshRequest | None = None,
     refresh_token: str | None = Cookie(None),
     facade: AuthFacade = Depends(get_auth_facade)
 ):
-    return await facade.refresh_session(refresh_token or "")
+    token = refresh_token or (data.refresh_token if data else "")
+    if not token:
+        raise HTTPException(status_code=401, detail="Missing refresh token")
+    return await facade.refresh_session(token)
 
 @router.post("/verify-email", status_code=status.HTTP_200_OK)
 async def verify_email(data: EmailVerificationConfirm, facade: AuthFacade = Depends(get_auth_facade)):

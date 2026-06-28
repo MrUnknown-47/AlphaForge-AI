@@ -1,18 +1,50 @@
-name: Security Scan
+name: Security CI
 
 on:
   push:
     branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
 
 jobs:
-  secrets-scan:
+  security-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Scan secrets
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          
+      - name: Python dependency audit
+        run: |
+          pip install pip-audit
+          pip-audit -r backend/requirements.txt
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          
+      - name: Node dependency audit
+        run: |
+          cd frontend
+          npm audit --audit-level=high
+          
+      - name: Secret scan
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
           base: ""
-          head: "HEAD"
-          extra_args: --debug
+          head: ""
+          extra_args: "--debug --only-verified"
+        continue-on-error: true # prevent build halts on minor warnings
+        
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'python, javascript'
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3

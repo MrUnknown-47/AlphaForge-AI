@@ -6,13 +6,13 @@ import { authService } from "../services/auth";
 import { LoadingScreen } from "../components/ui/LoadingScreen";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { login, logout, accessToken } = useAuthStore();
+  const { login, logout, accessToken, refreshToken } = useAuthStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initAuth = async () => {
       try {
-        if (!accessToken) {
+        if (!accessToken && refreshToken) {
           // Attempt token refresh on session boot
           const data = await authService.refresh();
           if (data && data.access_token) {
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
     initAuth();
-  }, [accessToken, login, logout]);
+  }, [accessToken, refreshToken, login, logout]);
 
   if (loading) {
     return <LoadingScreen message="Resolving user session token..." />;

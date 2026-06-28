@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     SECRET_KEY: str = "supersecretkeychangeinproduction"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ENVIRONMENT: str = "local"
     
     # Extra inputs loaded from local .env
     jwt_algorithm: str = "HS256"

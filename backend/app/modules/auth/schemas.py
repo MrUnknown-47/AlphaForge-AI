@@ -28,6 +28,7 @@ class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "Bearer"
+    expires_in: int = 900
 
 class PasswordResetRequest(BaseModel):
     email: EmailStr
@@ -38,3 +39,6 @@ class PasswordResetConfirm(BaseModel):
 
 class EmailVerificationConfirm(BaseModel):
     token: str
+
+class RefreshRequest(BaseModel):
+    refresh_token: str

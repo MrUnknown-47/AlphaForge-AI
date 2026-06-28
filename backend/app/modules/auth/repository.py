@@ -41,3 +41,15 @@ class AuthRepository:
         if session:
             await self.db.delete(session)
             await self.db.commit()
+
+    async def create_revoked_token(self, token: str) -> None:
+        from app.modules.auth.models import RevokedTokenModel
+        model = RevokedTokenModel(token=token)
+        self.db.add(model)
+        await self.db.commit()
+
+    async def is_token_revoked(self, token: str) -> bool:
+        from app.modules.auth.models import RevokedTokenModel
+        stmt = select(RevokedTokenModel).where(RevokedTokenModel.token == token)
+        result = await self.db.execute(stmt)
+        return result.scalars().first() is not None
