@@ -51,3 +51,80 @@ class PortfolioMetricsModel(Base):
     sharpe_ratio: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
     sortino_ratio: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
     max_drawdown: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+
+class PortfolioAccountModel(Base):
+    __tablename__ = "accounts"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    account_id: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    equity: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    cash: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    buying_power: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    portfolio_value: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    maintenance_margin: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+
+class PortfolioPositionModel(Base):
+    __tablename__ = "positions"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    symbol: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
+    quantity: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    avg_price: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    market_price: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    market_value: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    unrealized_pnl: Mapped[float] = mapped_column(Numeric(20, 8), default=0.0)
+    unrealized_pct: Mapped[float] = mapped_column(Numeric(10, 4), default=0.0)
+
+class PortfolioOrderModel(Base):
+    __tablename__ = "orders"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    order_id: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    symbol: Mapped[str] = mapped_column(String(16), nullable=False)
+    qty: Mapped[float] = mapped_column(Numeric(20, 8), nullable=False)
+    side: Mapped[str] = mapped_column(String(16), nullable=False)
+    status: Mapped[str] = mapped_column(String(32), nullable=False)
+
+class PortfolioSnapshotModel(Base):
+    __tablename__ = "snapshots"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    equity: Mapped[float] = mapped_column(Numeric(20, 8), nullable=False)
+    cash: Mapped[float] = mapped_column(Numeric(20, 8), nullable=False)
+
+class PortfolioMetricsHistoryModel(Base):
+    __tablename__ = "metrics"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    sharpe: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    sortino: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    calmar: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    max_drawdown: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    volatility: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    beta: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+    alpha: Mapped[float] = mapped_column(Numeric(10, 4), nullable=True)
+
+class PortfolioAllocationModel(Base):
+    __tablename__ = "allocations"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    symbol: Mapped[str] = mapped_column(String(16), nullable=False)
+    weight: Mapped[float] = mapped_column(Numeric(10, 4), nullable=False)
+
+class PortfolioRiskMetricsModel(Base):
+    __tablename__ = "risk_metrics"
+    __table_args__ = {"schema": "portfolio"}
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    var: Mapped[float] = mapped_column(Numeric(20, 8), nullable=False)
+    cvar: Mapped[float] = mapped_column(Numeric(20, 8), nullable=False)
+    leverage: Mapped[float] = mapped_column(Numeric(10, 4), nullable=False)
+    concentration: Mapped[float] = mapped_column(Numeric(10, 4), nullable=False)

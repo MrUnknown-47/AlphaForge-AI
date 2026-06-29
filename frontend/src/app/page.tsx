@@ -98,7 +98,25 @@ export default function Home() {
               {menuItems.map((item) => (
                 <button
                   key={item.name}
-                  onClick={() => setActiveMenu(item.name)}
+                  onClick={() => {
+                    if (item.name === "Dashboard") {
+                      setActiveMenu("Dashboard");
+                    } else if (item.name === "Live Trading") {
+                      router.push("/live-trading");
+                    } else if (item.name === "Portfolio") {
+                      router.push("/portfolio");
+                    } else if (item.name === "AI Copilot") {
+                      router.push("/copilot");
+                    } else if (item.name === "Backtesting") {
+                      router.push("/backtesting");
+                    } else if (item.name === "Validation") {
+                      router.push("/operations");
+                    } else if (item.name === "Operations") {
+                      router.push("/operations");
+                    } else if (item.name === "Security") {
+                      router.push("/security");
+                    }
+                  }}
                   className={`w-full flex items-center px-4 py-2.5 rounded text-xs font-semibold uppercase tracking-wider transition-colors ${
                     activeMenu === item.name
                       ? "bg-accentCustom bg-opacity-25 text-accentCustom"
@@ -239,7 +257,7 @@ export default function Home() {
             {activeMenu !== "Dashboard" && (
               <Card title={`${activeMenu} telemetry and logs`} subtitle="Real-time dashboard mapping live REST API models inputs.">
                 <div className="py-12 text-center text-mutedCustom font-medium border border-dashed border-borderCustom rounded">
-                  No active records. Telemetry listening on {activeMenu.toLowerCase()} REST gateways.
+                  Connected to AlphaForge gateway. Load module components to view stats.
                 </div>
               </Card>
             )}

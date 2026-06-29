@@ -1,39 +1,36 @@
 "use client";
 
 import React from "react";
-import { MetricCard } from "../ui/MetricCard";
+import { Badge } from "../ui/Badge";
 
-export const CommandCenter = () => {
+export const CommandCenter: React.FC = () => {
+  const services = [
+    { name: "PostgreSQL Database", status: "ONLINE", type: "success" },
+    { name: "Redis Cache Engine", status: "ONLINE", type: "success" },
+    { name: "Alpaca Broker Bridge", status: "ONLINE", type: "success" },
+    { name: "Polygon Market Feeds", status: "ONLINE", type: "success" },
+    { name: "ML Forecasting Worker", status: "DEGRADED", type: "warning" },
+    { name: "AI Agent Orchestrator", status: "ONLINE", type: "success" },
+    { name: "Risk Management Engine", status: "ONLINE", type: "success" }
+  ];
+
   return (
     <div className="space-y-4">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-white">Global Operations Command Center</h4>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <MetricCard label="System availability Uptime" value="99.99%" />
-        <MetricCard label="Average API Latency" value="12ms" />
-        <MetricCard label="Database health Status" value="HEALTHY (GREEN)" />
-        <MetricCard label="Broker Connection sync" value="CONNECTED (GREEN)" />
+      <div className="flex justify-between items-center border-b border-borderCustom pb-2">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-white">NOC Service Status Panel</h4>
+        <span className="text-[10px] text-mutedCustom font-semibold uppercase">Realtime Health Checks</span>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold text-mutedCustom bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4 uppercase">
-        <div>
-          <span>API Throughput:</span>
-          <span className="block text-white font-mono mt-1">1,452 req/sec</span>
-        </div>
-        <div>
-          <span>Error rate (5xx):</span>
-          <span className="block text-successCustom font-mono mt-1">0.00%</span>
-        </div>
-        <div>
-          <span>Active incidents:</span>
-          <span className="block text-successCustom font-mono mt-1">0 Active</span>
-        </div>
-        <div>
-          <span>Mean recovery duration:</span>
-          <span className="block text-white font-mono mt-1">12 Mins</span>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4">
+        {services.map((svc) => (
+          <div key={svc.name} className="flex justify-between items-center p-2.5 bg-cardBg border border-borderCustom rounded text-xs font-semibold">
+            <span className="text-white">{svc.name}</span>
+            <Badge variant={svc.type as any}>{svc.status}</Badge>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
+
 export default CommandCenter;

@@ -10,13 +10,17 @@ async def test_password_length_validation(db_session):
     service = AuthService(repo)
 
     # 1. Short password (< 8 chars)
-    short_data = UserCreate(
-        email="short@example.com",
-        username="shortuser",
-        password="short"
-    )
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        UserCreate(
+            email="short@example.com",
+            username="shortuser",
+            password="short"
+        )
+    
+    # Directly test hash_password method length limits validation
     with pytest.raises(PasswordValidationException):
-        await service.register(short_data)
+        service.hash_password("short")
 
     # 2. Normal password (e.g. 12 chars)
     normal_data = UserCreate(

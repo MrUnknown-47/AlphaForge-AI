@@ -10,19 +10,14 @@ import { LoadingScreen } from "../../components/ui/LoadingScreen";
 import { useAuthStore } from "../../store/authStore";
 import { useOperationsStore } from "../../store/operationsStore";
 
-// Widgets import
-import FundCommandCenter from "../../components/hedgefund/FundCommandCenter";
-import PortfolioManager from "../../components/hedgefund/PortfolioManager";
-import CapitalAllocator from "../../components/hedgefund/CapitalAllocator";
-import PMScorecard from "../../components/hedgefund/PMScorecard";
-import FundRisk from "../../components/hedgefund/FundRisk";
-import ScenarioSimulator from "../../components/hedgefund/ScenarioSimulator";
-import CapacitySimulator from "../../components/hedgefund/CapacitySimulator";
-import MonteCarloInstitutional from "../../components/hedgefund/MonteCarloInstitutional";
-import FundOperations from "../../components/hedgefund/FundOperations";
-import InvestorRelations from "../../components/hedgefund/InvestorRelations";
-import HedgeFundAI from "../../components/hedgefund/HedgeFundAI";
-import InstitutionalScorecard from "../../components/hedgefund/InstitutionalScorecard";
+// CIO Widgets import
+import PortfolioOptimizer from "../../components/cio/PortfolioOptimizer";
+import AllocationMatrix from "../../components/cio/AllocationMatrix";
+import RegimeMonitor from "../../components/cio/RegimeMonitor";
+import CommitteeDecisions from "../../components/cio/CommitteeDecisions";
+import HedgingPanel from "../../components/cio/HedgingPanel";
+import RiskBudget from "../../components/cio/RiskBudget";
+import ExplanationPanel from "../../components/cio/ExplanationPanel";
 
 export default function HedgefundPage() {
   const router = useRouter();
@@ -40,21 +35,14 @@ export default function HedgefundPage() {
   }, []);
 
   if (loading) {
-    return <LoadingScreen message="Aggregating fund assets books telemetry..." />;
+    return <LoadingScreen message="Aggregating autonomous CIO assets allocations..." />;
   }
 
   const commands = [
     { category: "Navigation", label: "Go to Main Workspace", action: () => router.push("/") },
     { category: "Navigation", label: "Go to Portfolio Analytics", action: () => router.push("/portfolio") },
-    { category: "Navigation", label: "Go to Copilot Desk", action: () => router.push("/copilot") }
+    { category: "Navigation", label: "Go to Operations Tower", action: () => router.push("/operations") }
   ];
-
-  const handleStressTest = () => {
-    setStatusMsg("Stress test running: Simulating historical macro black swan shocks...");
-    setTimeout(() => {
-      setStatusMsg("Stress test complete: All sub-books survived Lehman/COVID drawdowns.");
-    }, 2000);
-  };
 
   const handleLogout = () => {
     logout();
@@ -76,7 +64,7 @@ export default function HedgefundPage() {
             </div>
             <nav className="mt-4 px-3 space-y-1">
               {[
-                { name: "Fund Command", icon: "🏢", path: "/hedgefund" },
+                { name: "Autonomous CIO Desk", icon: "🏢", path: "/hedgefund" },
                 { name: "Executive Terminal", icon: "📊", path: "/dashboard" },
                 { name: "Live Trading", icon: "⚡", path: "/live-trading" },
                 { name: "Portfolio Hub", icon: "💼", path: "/portfolio" }
@@ -97,7 +85,7 @@ export default function HedgefundPage() {
             </nav>
           </div>
           <div className="p-4 border-t border-borderCustom text-[10px] text-mutedCustom flex justify-between uppercase">
-            <span>Version 1.0.0-F10</span>
+            <span>Version 1.0.0-F15</span>
             <span className="text-successCustom">● Staging</span>
           </div>
         </aside>
@@ -107,7 +95,7 @@ export default function HedgefundPage() {
           {/* Top Navbar */}
           <header className="h-16 bg-secondaryBg border-b border-borderCustom flex items-center justify-between px-6">
             <div className="flex items-center gap-4">
-              <SearchBar placeholder="Press Ctrl+K or search AUM..." onClick={() => setCmdOpen(true)} readOnly />
+              <SearchBar placeholder="Press Ctrl+K or search laboratory..." onClick={() => setCmdOpen(true)} readOnly />
             </div>
             <div className="flex items-center gap-4 text-xs font-semibold">
               <Badge variant="success">Broker: Alpaca Paper Online</Badge>
@@ -165,8 +153,8 @@ export default function HedgefundPage() {
           {/* Scrollable workspace */}
           <main className="flex-1 overflow-y-auto p-6 space-y-6">
             <div>
-              <h2 className="text-2xl font-bold uppercase tracking-wider text-white">Hedge Fund Simulator & Capital Allocation Laboratory</h2>
-              <p className="text-xs text-mutedCustom mt-1">Cross-reconciled sub-portfolio books allocation.</p>
+              <h2 className="text-2xl font-bold uppercase tracking-wider text-white">Autonomous CIO & Portfolio Management Terminal</h2>
+              <p className="text-xs text-mutedCustom mt-1">Autonomous capital allocation, optimization algorithms, and delta hedging.</p>
             </div>
 
             {statusMsg && (
@@ -179,44 +167,29 @@ export default function HedgefundPage() {
               {/* Left Column (8 columns) */}
               <div className="xl:col-span-8 space-y-6">
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <FundCommandCenter onStressTest={handleStressTest} />
+                  <PortfolioOptimizer />
                 </div>
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <PortfolioManager />
+                  <AllocationMatrix />
                 </div>
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <PMScorecard />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <CapacitySimulator />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <MonteCarloInstitutional />
+                  <CommitteeDecisions />
                 </div>
               </div>
 
               {/* Right Column (4 columns) */}
               <div className="xl:col-span-4 space-y-6">
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <CapitalAllocator />
+                  <RegimeMonitor />
                 </div>
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <FundRisk />
+                  <HedgingPanel />
                 </div>
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <ScenarioSimulator />
+                  <RiskBudget />
                 </div>
                 <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <FundOperations />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <InvestorRelations />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <HedgeFundAI />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <InstitutionalScorecard />
+                  <ExplanationPanel />
                 </div>
               </div>
             </div>

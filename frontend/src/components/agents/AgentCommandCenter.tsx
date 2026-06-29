@@ -1,62 +1,65 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 
-interface Agent {
-  name: string;
-  health: "HEALTHY" | "DEGRADED" | "CRITICAL";
-  latency: number;
-  memory: string;
-  cost: string;
-}
+export const AgentCommandCenter: React.FC = () => {
+  const [userVote, setUserVote] = useState<string | null>(null);
 
-const activeAgents: Agent[] = [
-  { name: "CIO Agent", health: "HEALTHY", latency: 120, memory: "128MB", cost: "$0.09" },
-  { name: "Quant Agent", health: "HEALTHY", latency: 95, memory: "256MB", cost: "$0.12" },
-  { name: "Market Agent", health: "HEALTHY", latency: 142, memory: "192MB", cost: "$0.15" },
-  { name: "Risk Agent", health: "HEALTHY", latency: 85, memory: "64MB", cost: "$0.06" }
-];
+  const votes = [
+    { type: "BUY", count: 4, pct: 57 },
+    { type: "SELL", count: 0, pct: 0 },
+    { type: "HOLD", count: 2, pct: 28 },
+    { type: "REDUCE", count: 0, pct: 0 },
+    { type: "HEDGE", count: 1, pct: 14 }
+  ];
 
-export const AgentCommandCenter = () => {
   return (
     <div className="space-y-4">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-white">Autonomous Agent Orchestra Command</h4>
+      <div className="flex justify-between items-center border-b border-borderCustom pb-2">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-white">Committee Voting Panel</h4>
+        <Badge variant="info">Consensus: BUY (57%)</Badge>
+      </div>
 
-      <div className="overflow-x-auto border border-borderCustom rounded bg-cardBg">
-        <table className="w-full text-left text-xs border-collapse">
-          <thead className="bg-secondaryBg border-b border-borderCustom text-[10px] text-mutedCustom uppercase tracking-wider">
-            <tr>
-              <th className="px-3 py-2.5">Agent Instance</th>
-              <th className="px-3 py-2.5">Health</th>
-              <th className="px-3 py-2.5">Latency</th>
-              <th className="px-3 py-2.5">Memory Usage</th>
-              <th className="px-3 py-2.5">Daily Cost</th>
-              <th className="px-3 py-2.5">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-borderCustom font-medium">
-            {activeAgents.map((agent) => (
-              <tr key={agent.name} className="hover:bg-secondaryBg hover:bg-opacity-50 transition-colors">
-                <td className="px-3 py-2.5 text-white font-bold">{agent.name}</td>
-                <td className="px-3 py-2.5">
-                  <Badge variant="success">{agent.health}</Badge>
-                </td>
-                <td className="px-3 py-2.5 font-mono text-accentCustom">{agent.latency}ms</td>
-                <td className="px-3 py-2.5 font-mono text-white">{agent.memory}</td>
-                <td className="px-3 py-2.5 font-mono text-successCustom">{agent.cost}</td>
-                <td className="px-3 py-2.5">
-                  <div className="flex gap-1.5">
-                    <Button variant="ghost" size="sm">Pause</Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4 space-y-4 text-xs font-semibold">
+        <div className="grid grid-cols-5 gap-2">
+          {votes.map((v) => (
+            <button
+              key={v.type}
+              onClick={() => setUserVote(v.type)}
+              className={`p-3 rounded text-center border transition-all ${
+                userVote === v.type
+                  ? "bg-accentCustom bg-opacity-25 border-accentCustom text-accentCustom"
+                  : "bg-cardBg border-borderCustom text-mutedCustom hover:text-white"
+              }`}
+            >
+              <div className="font-bold text-sm">{v.type}</div>
+              <div className="text-[10px] mt-1 font-mono">{v.pct}% ({v.count} votes)</div>
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 border-t border-borderCustom pt-3 font-mono">
+          <div>
+            <span className="text-[10px] text-mutedCustom block uppercase tracking-wider">Final Consensus</span>
+            <span className="text-sm font-bold text-successCustom">BUY TARGET ALLOCATION</span>
+          </div>
+          <div>
+            <span className="text-[10px] text-mutedCustom block uppercase tracking-wider">Confidence %</span>
+            <span className="text-sm font-bold text-white">82.5%</span>
+          </div>
+        </div>
+
+        <div className="border-t border-borderCustom pt-3 space-y-1">
+          <span className="text-[10px] text-mutedCustom block uppercase tracking-wider">Explainability Output (LIME/SHAP Attribution)</span>
+          <p className="text-[10px] text-white font-mono leading-relaxed bg-black bg-opacity-40 p-2 border border-borderCustom rounded">
+            Consensus BUY triggered by: Tech Momentum loading (+0.42), Yield Curve shift (+0.18), and positive Social Sentiment spikes (+0.25). HEDGE recommendations were active due to Macro inflation risks (-0.11).
+          </p>
+        </div>
       </div>
     </div>
   );
 };
+
 export default AgentCommandCenter;

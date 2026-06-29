@@ -16,6 +16,17 @@ from app.modules.auth.models import UserModel, SessionModel, RevokedTokenModel
 from app.modules.derivatives.models import OptionContractModel, FuturesContractModel
 from app.modules.feature_store.models import TechnicalFeaturesModel, MarketFeaturesModel, FundamentalFeaturesModel, SentimentFeaturesModel
 from app.modules.fundamental.models import FinancialStatementModel
+from app.modules.market_data.models import SymbolModel, Ohlcv1mModel, PolygonQuoteModel, PolygonTradeModel, PolygonBarModel, PolygonOptionsChainModel
+from app.modules.portfolio.models import PortfolioModel, PortfolioAccountModel, PortfolioPositionModel, PortfolioOrderModel, PortfolioSnapshotModel, PortfolioMetricsHistoryModel, PortfolioAllocationModel, PortfolioRiskMetricsModel
+from app.modules.live_trading.db_models import ExecutionOrderModel, ExecutionFillModel, ExecutionPositionModel, ExecutionTelemetryModel, ExecutionPnlModel, ExecutionSlippageModel, ExecutionEventModel, ExecutionSessionModel
+from app.modules.backtesting.db_models import BacktestStrategyModel, BacktestRunModel, BacktestOrderModel, BacktestTradeModel, BacktestPositionModel, BacktestSnapshotModel, BacktestMetricsModel, BacktestOptimizationModel, BacktestWalkforwardModel, BacktestMontecarloModel
+from app.modules.research.db_models import ResearchFactorModel, ResearchFeatureModel, ResearchFactorExposureModel, ResearchValidationModel, ResearchRegimeModel, ResearchCorrelationModel, ResearchClusterModel, ResearchExplanationModel, ResearchOptimizationModel, ResearchReportModel
+from app.modules.ai.db_models import AiAgentModel, AiDebateModel, AiDecisionModel, AiMemoryModel, AiEmbeddingModel, AiExplanationModel, AiReportModel, AiCommitteeModel, AiRecommendationModel
+from app.modules.ml.db_models import MlModel, MlTrainingRunModel, MlPredictionModel, MlDriftModel, MlFeatureModel, MlForecastModel, MlExplanationModel, MlRegistryModel, MlMetricsModel
+from app.modules.risk.db_models import RiskVarModel, RiskCvarModel, RiskStressModel, RiskScenarioModel, RiskExposureModel, RiskDrawdownModel, RiskCorrelationModel, RiskContagionModel, RiskLiquidityModel, RiskLimitModel, RiskEventModel, RiskReportModel
+from app.modules.operations.db_models import OpsMetricsModel, OpsLogsModel, OpsAlertsModel, OpsIncidentsModel, OpsTelemetryModel, OpsTracesModel, OpsHealthModel, OpsEventsModel, OpsServicesModel, OpsReportsModel, NOCModel
+from app.modules.compliance.db_models import ComplianceAuditLog, ComplianceEvent, ComplianceApproval, CompliancePolicy, ComplianceControl, ComplianceAttestation, CompliancePermission, ComplianceExplanation, ComplianceReport, ComplianceRetention
+from app.modules.shadow.db_models import ShadowRunModel, ShadowReconciliationModel, ShadowExecutionQualityModel, ShadowAttributionModel
 
 config = context.config
 if config.config_file_name is not None:

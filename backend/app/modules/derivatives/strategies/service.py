@@ -148,5 +148,62 @@ class OptionsStrategyService:
             "probability_of_profit": 0.58,
             "expected_value": float(max_profit * 0.58 - max_loss * 0.42)
         }
+
+    @staticmethod
+    def long_call(S: float, strike: float, premium: float) -> Dict[str, Any]:
+        return {
+            "strategy": "Long Call",
+            "max_profit": float("inf"),
+            "max_loss": float(premium),
+            "breakeven": [float(strike + premium)],
+            "probability_of_profit": 0.38,
+            "expected_value": float(-premium * 0.62 + 100.0 * 0.38)
+        }
+
+    @staticmethod
+    def long_put(S: float, strike: float, premium: float) -> Dict[str, Any]:
+        return {
+            "strategy": "Long Put",
+            "max_profit": float(strike - premium),
+            "max_loss": float(premium),
+            "breakeven": [float(strike - premium)],
+            "probability_of_profit": 0.36,
+            "expected_value": float(-premium * 0.64 + 100.0 * 0.36)
+        }
+
+    @staticmethod
+    def vertical_spread(S: float, long_strike: float, short_strike: float, net_premium: float) -> Dict[str, Any]:
+        max_profit = abs(short_strike - long_strike) - net_premium
+        return {
+            "strategy": "Vertical Spread",
+            "max_profit": float(max_profit),
+            "max_loss": float(net_premium),
+            "breakeven": [float(long_strike + net_premium)],
+            "probability_of_profit": 0.55,
+            "expected_value": float(max_profit * 0.55 - net_premium * 0.45)
+        }
+
+    @staticmethod
+    def collar(S: float, put_strike: float, call_strike: float, net_premium: float) -> Dict[str, Any]:
+        return {
+            "strategy": "Collar",
+            "max_profit": float(call_strike - S + net_premium),
+            "max_loss": float(S - put_strike - net_premium),
+            "breakeven": [float(S - net_premium)],
+            "probability_of_profit": 0.62,
+            "expected_value": 0.0
+        }
+
+    @staticmethod
+    def protective_put(S: float, strike: float, premium: float) -> Dict[str, Any]:
+        return {
+            "strategy": "Protective Put",
+            "max_profit": float("inf"),
+            "max_loss": float(S - strike + premium),
+            "breakeven": [float(S + premium)],
+            "probability_of_profit": 0.52,
+            "expected_value": 0.0
+        }
+
 class StrategiesEngine:
     pass

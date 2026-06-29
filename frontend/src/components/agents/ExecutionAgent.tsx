@@ -3,26 +3,35 @@
 import React from "react";
 import { Badge } from "../ui/Badge";
 
-export const ExecutionAgent = () => {
+export const ExecutionAgent: React.FC = () => {
   return (
     <div className="space-y-4">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-white">Execution Agent fills & latency Metrics</h4>
+      <div className="flex justify-between items-center border-b border-borderCustom pb-2">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-white">Execution Agent Card</h4>
+        <Badge variant="success">BUY</Badge>
+      </div>
 
-      <div className="bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4 space-y-4 text-xs font-semibold text-mutedCustom">
-        <div className="flex justify-between border-b border-borderCustom pb-2">
-          <span>Average slippage cost:</span>
-          <span className="text-white font-mono">1.2 cents/share</span>
+      <div className="bg-secondaryBg bg-opacity-20 border border-borderCustom rounded p-4 space-y-3 text-xs font-semibold text-mutedCustom">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <span className="text-[10px] uppercase block tracking-wider">Confidence</span>
+            <span className="block text-white font-mono mt-0.5">90%</span>
+          </div>
+          <div>
+            <span className="text-[10px] uppercase block tracking-wider">Score</span>
+            <span className="block text-accentCustom font-mono mt-0.5">9.0 / 10</span>
+          </div>
         </div>
-        <div className="flex justify-between border-b border-borderCustom pb-2">
-          <span>Execution Latency:</span>
-          <span className="text-white font-mono">42ms</span>
-        </div>
-        <div className="flex justify-between pb-2">
-          <span>Alpaca Broker Bridge Sync:</span>
-          <Badge variant="success">CONNECTED</Badge>
+
+        <div className="border-t border-borderCustom pt-2">
+          <span className="text-[10px] uppercase block tracking-wider mb-1">Reasoning</span>
+          <p className="text-white font-normal text-[11px] leading-relaxed">
+            Order books liquidity indicators support slicing buying blocks using adaptive VWAP. Execution delays are expected to remain under 40ms.
+          </p>
         </div>
       </div>
     </div>
   );
 };
+
 export default ExecutionAgent;

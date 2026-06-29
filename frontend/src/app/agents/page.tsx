@@ -159,50 +159,49 @@ export default function AgentsPage() {
             <div>
               <h2 className="text-2xl font-bold uppercase tracking-wider text-white">Multi-Agent Trading System & Autonomous Quant Desk</h2>
               <p className="text-xs text-mutedCustom mt-1">Cross-agent consensus monitoring.</p>
-            </div>
+              <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mt-6">
+                {/* Left Side (8 columns): Debate, Voting, RAG, Workflow */}
+                <div className="xl:col-span-8 space-y-6">
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <AgentCommandCenter />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <DebateChamber />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <ResearchAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <WorkflowGraph />
+                  </div>
+                </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-              {/* Left Column (8 columns) */}
-              <div className="xl:col-span-8 space-y-6">
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <AgentCommandCenter />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <DebateChamber />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <WorkflowGraph />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <ExecutionAgent />
-                </div>
-              </div>
-
-              {/* Right Column (4 columns) */}
-              <div className="xl:col-span-4 space-y-6">
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <CIOAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <QuantAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <MarketAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <RiskAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <PortfolioAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <ResearchAgent />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <MemoryCenter />
-                </div>
-                <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
-                  <Supervisor />
+                {/* Right Side (4 columns): The 7 Agent Cards */}
+                <div className="xl:col-span-4 space-y-6">
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <MarketAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <QuantAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <PortfolioAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <RiskAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <CIOAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <Supervisor />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <ExecutionAgent />
+                  </div>
+                  <div className="bg-cardBg border border-borderCustom rounded p-5 shadow-lg">
+                    <MemoryCenter />
+                  </div>
                 </div>
               </div>
             </div>

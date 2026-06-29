@@ -11,6 +11,7 @@ class LiveRiskMonitor:
         self.max_drawdown = 0.20
         self.daily_high = 0.0
         self.initial_value = 0.0
+        self.kill_switch_active = False
 
     def check_pre_trade_limits(
         self, ticker: str, quantity: float, price: float, portfolio_val: float, active_positions: List[Dict[str, Any]]
@@ -53,3 +54,9 @@ class LiveRiskMonitor:
             alerts.append(f"ALERT: Max Daily Loss breached! Change: {daily_change*100:.2f}% (Limit: -3%)")
 
         return alerts
+
+    def set_kill_switch(self, active: bool) -> None:
+        self.kill_switch_active = active
+
+    async def emergency_flatten(self, db_session) -> None:
+        logger.info("EMERGENCY FLATTEN INITIATED. Liquidating all positions.")

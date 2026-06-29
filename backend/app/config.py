@@ -16,6 +16,8 @@ class Settings(BaseSettings):
 
     # API Keys for Data Providers
     POLYGON_API_KEY: str = ""
+    POLYGON_BASE_URL: str = "https://api.polygon.io"
+    POLYGON_WS_URL: str = "wss://socket.polygon.io"
     ALPACA_API_KEY: str = ""
     ALPACA_API_SECRET: str = ""
     TWELVEDATA_API_KEY: str = ""

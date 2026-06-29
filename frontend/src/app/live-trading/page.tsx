@@ -34,12 +34,16 @@ export default function LiveTradingPage() {
 
   const { user, role, logout } = useAuthStore();
   const { brokerLatencyMs } = useOperationsStore();
-  const { addOrder } = useTradingStore();
+  const { addOrder, connectWebSockets } = useTradingStore();
 
   useEffect(() => {
+    const unsubscribe = connectWebSockets();
     const timer = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
+  }, [connectWebSockets]);
 
   // Keyboard shortcut listeners: B = Buy, S = Sell, ESC = Cancel
   useEffect(() => {

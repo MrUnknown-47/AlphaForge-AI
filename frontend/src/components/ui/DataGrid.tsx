@@ -24,7 +24,7 @@ export const DataGrid: React.FC<DataGridProps> = ({ items, columns, className })
           {items.length === 0 ? (
             <tr>
               <td colSpan={columns.length} className="px-4 py-6 text-center text-mutedCustom font-medium">
-                No active records.
+                No records found.
               </td>
             </tr>
           ) : (

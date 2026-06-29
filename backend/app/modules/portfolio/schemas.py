@@ -54,3 +54,42 @@ class PortfolioMetricsResponse(BaseModel):
     beta: Decimal | None
     alpha: Decimal | None
     timestamp: datetime
+
+class AccountSyncResponse(BaseModel):
+    account_id: str
+    equity: float
+    cash: float
+    buying_power: float
+    portfolio_value: float
+    maintenance_margin: float
+
+class PositionSyncResponse(BaseModel):
+    symbol: str
+    quantity: float
+    avg_price: float
+    market_price: float
+    market_value: float
+    unrealized_pnl: float
+    unrealized_pct: float
+
+class AllocationResponse(BaseModel):
+    symbol: str
+    weight: float
+
+class ExposureResponse(BaseModel):
+    total_exposure: float
+    sector_allocations: dict[str, float]
+    asset_allocations: dict[str, float]
+
+class RiskResponse(BaseModel):
+    var_95: float
+    cvar_95: float
+    leverage: float
+    concentration_index: float
+
+class AttributionResponse(BaseModel):
+    realized_pnl: float
+    unrealized_pnl: float
+    fees: float
+    slippage: float
+    contributions: dict[str, float]
